@@ -1,6 +1,5 @@
-package com.attornatus.peoplemanagement.peoplemanagement.infra.Entity;
+package com.attornatus.peoplemanagement.peoplemanagement.infra.entity;
 
-import com.attornatus.peoplemanagement.peoplemanagement.domain.Address;
 import jakarta.persistence.*;
 
 import java.util.Date;
@@ -9,7 +8,7 @@ import java.util.UUID;
 
 @Entity
 @Table(name = "people")
-public class PeopleEntity {
+public class People {
     @Id
     private UUID id;
 
@@ -20,5 +19,5 @@ public class PeopleEntity {
     private Date birthDate;
 
     @OneToMany(mappedBy = "people")
-    private List<Addresses> addresses;
+    private List<Address> addresses;
 }

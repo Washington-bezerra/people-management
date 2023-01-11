@@ -1,4 +1,4 @@
-package com.attornatus.peoplemanagement.peoplemanagement.infra.Entity;
+package com.attornatus.peoplemanagement.peoplemanagement.infra.entity;
 
 import jakarta.persistence.*;
 
@@ -7,14 +7,14 @@ import java.util.UUID;
 
 @Entity
 @Table(name = "addresses")
-public class Addresses {
+public class Address {
 
     @Id
     private UUID id;
 
     @ManyToOne()
     @JoinColumn(name = "people_id")
-    private PeopleEntity people;
+    private People people;
 
     @Column(name = "public_place", nullable = false)
     private String publicPlace;
