@@ -15,11 +15,6 @@ public class PeopleEntity implements Serializable {
     private static final long serialVersionUID = 1l;
     @Column
     @Id
-    @GeneratedValue(generator = "UUID")
-    @GenericGenerator(
-            name = "UUID",
-            strategy = "org.hibernate.id.UUIDGenerator"
-    )
     private UUID id;
 
     @Column(name = "name", nullable = false)
@@ -36,6 +31,12 @@ public class PeopleEntity implements Serializable {
     }
 
     public PeopleEntity() {}
+
+    public PeopleEntity(UUID id, String name, Date birthDate) {
+        this.id = id;
+        this.name = name;
+        this.birthDate = birthDate;
+    }
 
     public List<AddressEntity> getAddress() {
         return address;

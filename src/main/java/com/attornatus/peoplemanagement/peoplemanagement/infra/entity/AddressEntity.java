@@ -14,11 +14,6 @@ public class AddressEntity  implements Serializable {
     private static final long serialVersionUID = 1l;
     @Column
     @Id
-    @GeneratedValue(generator = "UUID")
-    @GenericGenerator(
-            name = "UUID",
-            strategy = "org.hibernate.id.UUIDGenerator"
-    )
     private UUID id;
 
     @JoinColumn(name = "people_id")

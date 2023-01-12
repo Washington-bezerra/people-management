@@ -4,7 +4,7 @@ import java.util.UUID;
 
 public class Address {
     
-    private UUID id;
+    private UUID id = UUID.randomUUID();
     private String publicPlace;
     private int zipCode;
     private int number;
