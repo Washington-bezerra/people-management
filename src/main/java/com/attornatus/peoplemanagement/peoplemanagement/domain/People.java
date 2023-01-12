@@ -1,20 +1,31 @@
 package com.attornatus.peoplemanagement.peoplemanagement.domain;
 
+import java.text.ParseException;
 import java.util.Date;
 import java.util.List;
 import java.util.UUID;
 
 public class People{
-    private UUID id = UUID.randomUUID();
+    private UUID id;
     private String name;
     private Date birthDate;
-    private List<Address> addresses;
+    private List<Address> address;
 
     public People(){}
-    public People(String name, Date birthDate, List addresses) {
+
+    public People(UUID id, String name, Date birthDate, List<Address> address){
+        this.id = id;
         this.name = name;
         this.birthDate = birthDate;
-        this.addresses = addresses;
+        this.address = address;
+    }
+
+    public List<Address> getAddress() {
+        return address;
+    }
+
+    public void setAddress(List<Address> address) {
+        this.address = address;
     }
 
     public UUID getId() {
@@ -41,11 +52,4 @@ public class People{
         this.birthDate = birthDate;
     }
 
-    public List getAddresses() {
-        return addresses;
-    }
-
-    public void setAddresses(List addresses) {
-        this.addresses = addresses;
-    }
 }
