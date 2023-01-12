@@ -7,10 +7,8 @@ import com.attornatus.peoplemanagement.peoplemanagement.infra.entity.PeopleEntit
 import com.attornatus.peoplemanagement.peoplemanagement.infra.repository.AddressRepository;
 import com.attornatus.peoplemanagement.peoplemanagement.infra.repository.PeopleRepository;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.http.HttpStatus;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.*;
 
@@ -24,9 +22,10 @@ public class PeopleManagementController {
     private AddressRepository addressRepository;
 
     @PostMapping("/people")
+    @ResponseStatus(code = HttpStatus.CREATED)
     public PeopleEntity createPeople(@RequestBody People people){
 
-        var peopleEntity = new PeopleEntity(people.getName(), people.getBirthDate());
+        var peopleEntity = new PeopleEntity(people.getId(), people.getName(), people.getBirthDate());
 
         List<AddressEntity> addressEntities = new ArrayList<>();
         for (Address address : people.getAddress()) {
