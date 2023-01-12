@@ -8,7 +8,6 @@ import com.attornatus.peoplemanagement.peoplemanagement.infra.repository.Address
 import com.attornatus.peoplemanagement.peoplemanagement.infra.repository.PeopleRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
-import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.*;
@@ -41,8 +40,14 @@ public class PeopleManagementController {
         return peopleEntity;
     }
 
+    @GetMapping("/people")
+    public Collection<PeopleEntity> getAllPeoples() {
+        return peopleRepository.getAllPeoples();
+    }
+
     @GetMapping("/people/{id}")
     public Optional<PeopleEntity> getPeople(@PathVariable UUID id) {
         return peopleRepository.findById(id);
     }
+
 }
