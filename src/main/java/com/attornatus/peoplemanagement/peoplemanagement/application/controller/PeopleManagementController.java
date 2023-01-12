@@ -8,6 +8,7 @@ import com.attornatus.peoplemanagement.peoplemanagement.infra.repository.Address
 import com.attornatus.peoplemanagement.peoplemanagement.infra.repository.PeopleRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.*;
@@ -40,6 +41,17 @@ public class PeopleManagementController {
         return peopleEntity;
     }
 
+    @PutMapping("/people/{peopleId}/address")
+    public AddressEntity createAddress(
+        @RequestBody Address address,
+        @PathVariable UUID peopleId
+    ){
+        var people = peopleRepository.findById(peopleId);
+        var addressEntity = new AddressEntity(address, people);
+
+        return addressRepository.save(addressEntity);
+    }
+
     @GetMapping("/people")
     public Collection<PeopleEntity> getAllPeoples() {
         return peopleRepository.getAllPeoples();
@@ -50,4 +62,23 @@ public class PeopleManagementController {
         return peopleRepository.findById(id);
     }
 
+    @GetMapping("/people/{peopleId}/address")
+    public List<AddressEntity> getAllAddressByPeopleId(
+            @PathVariable UUID peopleId
+    ){
+        return addressRepository.findByPeopleId(peopleId);
+    }
+    @PutMapping("/people/address/{addressId}")
+    public ResponseEntity<Object> setAddress(
+            @PathVariable UUID addressId,
+            @RequestParam Boolean isPrincipal
+    ){
+        var address = addressRepository.findById(addressId).orElse(null);
+        if (address == null){
+            return new ResponseEntity<>("Address not found for id " + addressId, HttpStatus.NOT_FOUND);
+        }
+        address.setIsPrincipal(isPrincipal);
+        address = addressRepository.save(address);
+        return new ResponseEntity<>(address, HttpStatus.OK);
+    }
 }
