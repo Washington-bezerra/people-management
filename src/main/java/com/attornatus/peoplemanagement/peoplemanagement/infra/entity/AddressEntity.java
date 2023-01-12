@@ -3,9 +3,9 @@ package com.attornatus.peoplemanagement.peoplemanagement.infra.entity;
 import com.attornatus.peoplemanagement.peoplemanagement.domain.Address;
 import com.fasterxml.jackson.annotation.JsonBackReference;
 import jakarta.persistence.*;
-import org.hibernate.annotations.GenericGenerator;
 
 import java.io.Serializable;
+import java.util.Optional;
 import java.util.UUID;
 
 @Entity
@@ -32,6 +32,8 @@ public class AddressEntity  implements Serializable {
 
     @Column(name = "city", nullable = false)
     private String city;
+    @Column(name = "is_principal", nullable = false)
+    private Boolean isPrincipal;
 
     public AddressEntity() {}
 
@@ -42,7 +44,27 @@ public class AddressEntity  implements Serializable {
         this.city = address.getCity();
         this.number = address.getNumber();
         this.city = address.getCity();
+        this.isPrincipal = address.getIsPrincipal();
         this.people = people;
+    }
+
+    public AddressEntity(Address address, Optional<PeopleEntity> people) {
+        this.id = address.getId();
+        this.zipCode = address.getZipCode();
+        this.publicPlace = address.getPublicPlace();
+        this.city = address.getCity();
+        this.number = address.getNumber();
+        this.city = address.getCity();
+        this.isPrincipal = address.getIsPrincipal();
+        this.people = people.get();
+    }
+
+    public Boolean getIsPrincipal() {
+        return isPrincipal;
+    }
+
+    public void setIsPrincipal(Boolean principal) {
+        isPrincipal = principal;
     }
 
     public UUID getId() {

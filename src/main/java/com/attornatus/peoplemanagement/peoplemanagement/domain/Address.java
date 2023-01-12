@@ -10,11 +10,22 @@ public class Address {
     private int number;
     private String city;
 
-    public Address(String publicPlace, int zipCode, int number, String city) {
+    private Boolean isPrincipal;
+
+    public Address(String publicPlace, int zipCode, int number, String city, Boolean isPrincipal) {
         this.publicPlace = publicPlace;
         this.zipCode = zipCode;
         this.number = number;
         this.city = city;
+        this.isPrincipal = isPrincipal;
+    }
+
+    public Boolean getIsPrincipal() {
+        return isPrincipal;
+    }
+
+    public void setIsPrincipal(Boolean principal) {
+        isPrincipal = principal;
     }
 
     public UUID getId() {
