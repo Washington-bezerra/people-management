@@ -1,10 +1,13 @@
-package com.attornatus.peoplemanagement.peoplemanagement.infra.entity;
+package com.attornatus.peoplemanagement.peoplemanagement.infrastructure.entity;
 
 import com.attornatus.peoplemanagement.peoplemanagement.domain.Address;
 import com.fasterxml.jackson.annotation.JsonBackReference;
 import jakarta.persistence.*;
+import org.hibernate.annotations.CreationTimestamp;
+import org.hibernate.annotations.UpdateTimestamp;
 
 import java.io.Serializable;
+import java.time.LocalDateTime;
 import java.util.Optional;
 import java.util.UUID;
 
@@ -35,6 +38,14 @@ public class AddressEntity  implements Serializable {
     @Column(name = "is_principal", nullable = false)
     private Boolean isPrincipal;
 
+    @CreationTimestamp
+    @Column(name = "created_at", nullable = false)
+    private LocalDateTime created_at;
+
+    @UpdateTimestamp
+    @Column(name = "updated_at", nullable = false)
+    private LocalDateTime updated_at;
+
     public AddressEntity() {}
 
     public AddressEntity(Address address, PeopleEntity people) {
@@ -57,6 +68,22 @@ public class AddressEntity  implements Serializable {
         this.city = address.getCity();
         this.isPrincipal = address.getIsPrincipal();
         this.people = people.get();
+    }
+
+    public LocalDateTime getCreated_at() {
+        return created_at;
+    }
+
+    public void setCreated_at(LocalDateTime created_at) {
+        this.created_at = created_at;
+    }
+
+    public LocalDateTime getUpdated_at() {
+        return updated_at;
+    }
+
+    public void setUpdated_at(LocalDateTime updated_at) {
+        this.updated_at = updated_at;
     }
 
     public Boolean getIsPrincipal() {

@@ -1,10 +1,12 @@
-package com.attornatus.peoplemanagement.peoplemanagement.infra.entity;
+package com.attornatus.peoplemanagement.peoplemanagement.infrastructure.entity;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
 import jakarta.persistence.*;
-import org.hibernate.annotations.GenericGenerator;
+import org.hibernate.annotations.CreationTimestamp;
+import org.hibernate.annotations.UpdateTimestamp;
 
 import java.io.Serializable;
+import java.time.LocalDateTime;
 import java.util.Date;
 import java.util.List;
 import java.util.UUID;
@@ -25,6 +27,14 @@ public class PeopleEntity implements Serializable {
     private Date birthDate;
     @OneToMany(mappedBy = "people")
     private List<AddressEntity> address = null;
+
+    @CreationTimestamp
+    @Column(name = "created_at", nullable = false)
+    private LocalDateTime created_at;
+
+    @UpdateTimestamp
+    @Column(name = "updated_at", nullable = false)
+    private LocalDateTime updated_at;
     public PeopleEntity(String name, Date birthDate) {
         this.name = name;
         this.birthDate = birthDate;
@@ -36,6 +46,22 @@ public class PeopleEntity implements Serializable {
         this.id = id;
         this.name = name;
         this.birthDate = birthDate;
+    }
+
+    public LocalDateTime getCreated_at() {
+        return created_at;
+    }
+
+    public void setCreated_at(LocalDateTime created_at) {
+        this.created_at = created_at;
+    }
+
+    public LocalDateTime getUpdated_at() {
+        return updated_at;
+    }
+
+    public void setUpdated_at(LocalDateTime updated_at) {
+        this.updated_at = updated_at;
     }
 
     public List<AddressEntity> getAddress() {
