@@ -1,6 +1,6 @@
-package com.attornatus.peoplemanagement.peoplemanagement.infra.repository;
+package com.attornatus.peoplemanagement.peoplemanagement.infrastructure.repository;
 
-import com.attornatus.peoplemanagement.peoplemanagement.infra.entity.AddressEntity;
+import com.attornatus.peoplemanagement.peoplemanagement.infrastructure.entity.AddressEntity;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 

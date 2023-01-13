@@ -1,13 +1,16 @@
 package com.attornatus.peoplemanagement.peoplemanagement.application.controller;
 
+import com.attornatus.peoplemanagement.peoplemanagement.application.commands.CreatePeopleCommand;
+import com.attornatus.peoplemanagement.peoplemanagement.application.useCases.CreatePeopleUseCase;
 import com.attornatus.peoplemanagement.peoplemanagement.domain.Address;
 import com.attornatus.peoplemanagement.peoplemanagement.domain.People;
-import com.attornatus.peoplemanagement.peoplemanagement.infra.entity.AddressEntity;
-import com.attornatus.peoplemanagement.peoplemanagement.infra.entity.PeopleEntity;
-import com.attornatus.peoplemanagement.peoplemanagement.infra.repository.AddressRepository;
-import com.attornatus.peoplemanagement.peoplemanagement.infra.repository.PeopleRepository;
+import com.attornatus.peoplemanagement.peoplemanagement.infrastructure.entity.AddressEntity;
+import com.attornatus.peoplemanagement.peoplemanagement.infrastructure.entity.PeopleEntity;
+import com.attornatus.peoplemanagement.peoplemanagement.infrastructure.repository.AddressRepository;
+import com.attornatus.peoplemanagement.peoplemanagement.infrastructure.repository.PeopleRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
+import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
@@ -24,18 +27,11 @@ public class PeopleManagementController {
 
     @PostMapping("/people")
     @ResponseStatus(code = HttpStatus.CREATED)
-    public PeopleEntity createPeople(@RequestBody People people){
-        final PeopleEntity peopleEntity = new PeopleEntity(people.getId(), people.getName(), people.getBirthDate());
-        var addresses = people.getAddress();
+    public PeopleEntity createPeople(@RequestBody People people) throws Exception {
+        CreatePeopleCommand command = new CreatePeopleCommand(people, peopleRepository, addressRepository);
+        CreatePeopleUseCase peopleEntity = new CreatePeopleUseCase(command);
 
-        List<AddressEntity> addressEntities = new ArrayList<>();
-        addresses.forEach(address -> addressEntities.add(new AddressEntity(address, peopleEntity)));
-
-        var peoplePersisted = peopleRepository.save(peopleEntity);
-        addressRepository.saveAll(addressEntities);
-        peoplePersisted.setAddress(addressEntities);
-
-        return peoplePersisted;
+        return peopleEntity.createPeople();
     }
 
     @PutMapping("/people/{peopleId}/address")
