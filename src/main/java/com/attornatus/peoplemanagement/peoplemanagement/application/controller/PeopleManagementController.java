@@ -25,20 +25,17 @@ public class PeopleManagementController {
     @PostMapping("/people")
     @ResponseStatus(code = HttpStatus.CREATED)
     public PeopleEntity createPeople(@RequestBody People people){
-
-        var peopleEntity = new PeopleEntity(people.getId(), people.getName(), people.getBirthDate());
+        final PeopleEntity peopleEntity = new PeopleEntity(people.getId(), people.getName(), people.getBirthDate());
+        var addresses = people.getAddress();
 
         List<AddressEntity> addressEntities = new ArrayList<>();
-        for (Address address : people.getAddress()) {
-            AddressEntity addressEntity = new AddressEntity(address, peopleEntity);
-            addressEntities.add(addressEntity);
-        }
+        addresses.forEach(address -> addressEntities.add(new AddressEntity(address, peopleEntity)));
 
-        peopleEntity = peopleRepository.save(peopleEntity);
+        var peoplePersisted = peopleRepository.save(peopleEntity);
         addressRepository.saveAll(addressEntities);
-        peopleEntity.setAddress(addressEntities);
+        peoplePersisted.setAddress(addressEntities);
 
-        return peopleEntity;
+        return peoplePersisted;
     }
 
     @PutMapping("/people/{peopleId}/address")
