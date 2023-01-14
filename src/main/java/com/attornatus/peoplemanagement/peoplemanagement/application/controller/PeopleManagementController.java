@@ -66,7 +66,7 @@ public class PeopleManagementController {
     public ResponseEntity<Object> setAddress(
             @PathVariable UUID addressId,
             @RequestParam Boolean isPrincipal
-    ) throws Exception {
+    ){
         var address = addressRepository.findById(addressId).orElse(null);
         if (address == null){
             return new ResponseEntity<>("Address not found for id " + addressId, HttpStatus.NOT_FOUND);
