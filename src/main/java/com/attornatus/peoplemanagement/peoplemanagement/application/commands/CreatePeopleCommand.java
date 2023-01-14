@@ -7,7 +7,6 @@ import com.attornatus.peoplemanagement.peoplemanagement.infrastructure.repositor
 public class CreatePeopleCommand {
     public People people;
     public PeopleRepository peopleRepository;
-
     public AddressRepository addressRepository;
 
     public CreatePeopleCommand(
