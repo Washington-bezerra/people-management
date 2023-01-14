@@ -1,7 +1,9 @@
 package com.attornatus.peoplemanagement.peoplemanagement.application.controller;
 
 import com.attornatus.peoplemanagement.peoplemanagement.application.commands.CreatePeopleCommand;
+import com.attornatus.peoplemanagement.peoplemanagement.application.commands.UpdateAddresCommand;
 import com.attornatus.peoplemanagement.peoplemanagement.application.useCases.CreatePeopleUseCase;
+import com.attornatus.peoplemanagement.peoplemanagement.application.useCases.UpdatedAddressUseCase;
 import com.attornatus.peoplemanagement.peoplemanagement.domain.Address;
 import com.attornatus.peoplemanagement.peoplemanagement.domain.People;
 import com.attornatus.peoplemanagement.peoplemanagement.infrastructure.entity.AddressEntity;
@@ -10,7 +12,6 @@ import com.attornatus.peoplemanagement.peoplemanagement.infrastructure.repositor
 import com.attornatus.peoplemanagement.peoplemanagement.infrastructure.repository.PeopleRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
-import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
@@ -65,13 +66,15 @@ public class PeopleManagementController {
     public ResponseEntity<Object> setAddress(
             @PathVariable UUID addressId,
             @RequestParam Boolean isPrincipal
-    ){
+    ) throws Exception {
         var address = addressRepository.findById(addressId).orElse(null);
         if (address == null){
             return new ResponseEntity<>("Address not found for id " + addressId, HttpStatus.NOT_FOUND);
         }
-        address.setIsPrincipal(isPrincipal);
-        address = addressRepository.save(address);
-        return new ResponseEntity<>(address, HttpStatus.OK);
+
+        UpdateAddresCommand command = new UpdateAddresCommand(address, isPrincipal, addressRepository);
+        UpdatedAddressUseCase updatedAddressUseCase = new UpdatedAddressUseCase(command);
+
+        return new ResponseEntity<>(updatedAddressUseCase.update(), HttpStatus.OK);
     }
 }
